@@ -109,12 +109,6 @@ app.post('/api/visit', async (req, res) => {
     console.log(`🕐 Time: ${new Date().toLocaleString()}`);
     console.log(`🌸 ═══════════════════════════════════════\n`);
 
-    // Send email notification silently in the background
-    sendEmailNotification(
-      '🚨 SHE OPENED THE WEBSITE! 💕', 
-      `She just opened the Sorry Website!\n\nDevice: ${deviceType || 'Unknown'}\nTime: ${new Date().toLocaleString()}`
-    );
-
     res.json({ success: true, visitId: visit._id });
   } catch (err) {
     console.error('Error tracking visit:', err);
