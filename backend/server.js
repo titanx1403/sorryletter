@@ -36,7 +36,29 @@ const sendEmailNotification = (subject, text) => {
 };
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'https://sorryletter.vercel.app',
+  'https://sorryletter.netlify.app',
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    // Allow any origin that matches our list or any vercel/netlify preview deploy
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.netlify.app')
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Allow all for now since we don't know the exact frontend URL yet
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // MongoDB Connection
